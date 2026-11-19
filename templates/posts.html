@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock %}
+{% block content %}
+<h1>{{ title }}</h1>
+{% if show_form %}
+<form class="card" method="post" action="{{ url_for('create_post') }}">
+  <label for="content">Share a post</label>
+  <textarea id="content" name="content" maxlength="{{ max_length }}" required></textarea>
+  <button>Post</button>
+</form>
+{% endif %}
+{% for post in posts %}
+<article class="card">
+  <div class="meta">
+    <a href="{{ url_for('user_posts', user_id=post.userID) }}">{{ post.username }}</a> · {{ post.postDate }}
+  </div>
+  <p class="content">{{ post.content }}</p>
+  {% if post.userID == g.user.userID %}
+  <div class="actions">
+    <a class="button secondary" href="{{ url_for('edit_post', post_id=post.postID) }}">Edit</a>
+    <form method="post" action="{{ url_for('delete_post', post_id=post.postID) }}"
+          onsubmit="return confirm('Delete this post? Its comments and likes are deleted too.')">
+      <button class="danger">Delete</button>
+    </form>
+  </div>
+  {% endif %}
+</article>
+{% else %}
+<p class="meta">No posts yet.</p>
+{% endfor %}
+{% endblock %}

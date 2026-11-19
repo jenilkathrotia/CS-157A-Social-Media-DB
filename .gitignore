@@ -1,0 +1,4 @@
+# do not leave data in the git
+social.db
+.venv/
+__pycache__/
