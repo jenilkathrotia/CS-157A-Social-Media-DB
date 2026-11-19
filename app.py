@@ -15,7 +15,6 @@ DUMMY_HASH = generate_password_hash(secrets.token_hex(16), method="pbkdf2:sha256
 app = Flask(__name__)
 app.config.update(
     DATABASE=Path(__file__).with_name("social.db"),
-    # ponytail: random key logs everyone out on restart, set FLASK_SECRET_KEY when deployed.
     SECRET_KEY=os.environ.get("FLASK_SECRET_KEY") or secrets.token_hex(32),
     SESSION_COOKIE_SAMESITE="Lax",
 )
